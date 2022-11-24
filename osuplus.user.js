@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         osuplus
-// @namespace    https://osu.ppy.sh/u/1843447
-// @version      2.3.8
-// @description  show pp, selected mods ranking, friends ranking and other stuff
+// @namespace    osuplus
+// @version      2.3.8-CN
+// @description  扩展成绩显示、mod排行、好友排行等功能
 // @author       oneplusone
 // @match        http://osu.ppy.sh/*
 // @match        https://osu.ppy.sh/*
@@ -16,7 +16,7 @@
 // @grant        GM_xmlhttpRequest
 // @grant        GM_setValue
 // @grant        GM_getValue
-// @require      https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js
+// @require      https://cdn.staticfile.org/jquery/2.1.3/jquery.min.js
 // @require      http://timeago.yarp.com/jquery.timeago.js
 // ==/UserScript==
 
@@ -429,62 +429,62 @@
         $(document.body).append(
             $("<div id='osuplusModalOverlay' class='osuplus' style='display:none;'></div>"),
             $("<div id='osuplusModal' class='osuplus' style='display:none;'></div>").append(
-                "<h1>osuplus settings</h1>",
+                "<h1>osuplus 设置</h1>",
                 "<button class='osuplusModalClose'>x</button>",
                 $("<div class='osuplusSettingsContent'>").append(
                     $("<div>").append(
-                        "<h2>General</h2>",
+                        "<h2>全局</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
                             makeSettingRow("API key", null, `<input type='text' style='display:none' id='settings-apikey' name='apikey' value='${settings.apikey}'>
-                                                          <label><input type='checkbox' id='show-apikey'>Show</label>`),
-                            makeSettingRow("Show Site Switcher", null, makeCheckboxOption("showSiteSwitcher"))
+                                                          <label><input type='checkbox' id='show-apikey'>显示</label>`),
+                            makeSettingRow("显示网页切换按钮", null, makeCheckboxOption("showSiteSwitcher"))
                         )
                     ),
                     $("<div>").append(
-                        "<h2>Beatmaps page</h2>",
+                        "<h2>谱面页</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
-                            makeSettingRow("Show Beatconnect mirror", null, makeCheckboxOption("showMirror")),
-                            makeSettingRow("Show Sayobot mirror", null, makeCheckboxOption("showMirror2")),
-                            makeSettingRow("Show NeriNyan mirror", null, makeCheckboxOption("showMirror3")),
-                            makeSettingRow("Show Chimu.moe mirror", null, makeCheckboxOption("showMirror4")),
+                            makeSettingRow("显示 Beatconnect 镜像下载", null, makeCheckboxOption("showMirror")),
+                            makeSettingRow("显示 Sayobot 镜像下载", null, makeCheckboxOption("showMirror2")),
+                            makeSettingRow("显示 NeriNyan 镜像下载", null, makeCheckboxOption("showMirror3")),
+                            makeSettingRow("显示 Chimu.moe 镜像下载", null, makeCheckboxOption("showMirror4")),
                             makeSettingRow("Show dates", null, makeCheckboxOption("showDates")),
-                            makeSettingRow("Show pp rank beside player", "scores may take longer to load", makeCheckboxOption("showPpRank")),
-                            makeSettingRow("Fetch player countries outside top 50", "disable to load faster, but some players' countries won't be loaded", makeCheckboxOption("fetchPlayerCountries")),
-                            makeSettingRow("Show top 100", "rather than top 50", makeCheckboxOption("showTop100")),
-                            makeSettingRow("pp 2 decimal places", "rather than 0 dp", makeCheckboxOption("pp2dp"))
+                            makeSettingRow("显示每位玩家排名", "加载时间可能更长", makeCheckboxOption("showPpRank")),
+                            makeSettingRow("获取排行榜前50以外玩家的国旗", "关闭以缩短加载时间，但无法显示部分玩家国旗", makeCheckboxOption("fetchPlayerCountries")),
+                            makeSettingRow("显示排行榜前100", "不只有前50", makeCheckboxOption("showTop100")),
+                            makeSettingRow("pp显示2位小数", "不是取整", makeCheckboxOption("pp2dp"))
                         )
                     ),
                     $("<div>").append(
-                        "<h2>Userpage</h2>",
+                        "<h2>玩家页</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
-                            makeSettingRow("Show recent 24h", "", makeCheckboxOption("showRecent")),
-                            makeSettingRow("Show failed scores", "", makeCheckboxOption("failedChecked")),
-                            makeSettingRow("Show detailed hit count", "", makeCheckboxOption("showDetailedHitCount")),
-                            makeSettingRow("Show hits per play", "", makeCheckboxOption("showHitsPerPlay")),
-                            makeSettingRow("Show top ranks max possible combo", "may take longer to load", makeCheckboxOption("fetchUserpageMaxCombo")),
-                            makeSettingRow("Show first places detailed info", "may take longer to load", makeCheckboxOption("fetchFirstsInfo"))
+                            makeSettingRow("显示24小时内的成绩", "", makeCheckboxOption("showRecent")),
+                            makeSettingRow("显示失败成绩", "", makeCheckboxOption("failedChecked")),
+                            makeSettingRow("显示成绩具体命中次数", "", makeCheckboxOption("showDetailedHitCount")),
+                            makeSettingRow("显示平均每天命中次数", "", makeCheckboxOption("showHitsPerPlay")),
+                            makeSettingRow("显示最大连击数", "加载时间可能更长", makeCheckboxOption("fetchUserpageMaxCombo")),
+                            makeSettingRow("显示#1成绩具体信息", "加载时间可能更长", makeCheckboxOption("fetchFirstsInfo"))
                         )
                     ),
                     $("<div>").append(
-                        "<h2>Performance ranking</h2>",
+                        "<h2>PP排名</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
-                            makeSettingRow("Show global/country ranking", "", makeCheckboxOption("rankingVisible"))
+                            makeSettingRow("显示全球/本地排名", "", makeCheckboxOption("rankingVisible"))
                         )
                     ),
                     $("<div>").append(
-                        "<h2>Beatmap Listing</h2>",
+                        "<h2>谱面列表</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
-                            makeSettingRow("Force show difficulties", "so no need to hover over maps", makeCheckboxOption("forceShowDifficulties"))
+                            makeSettingRow("强制显示难度", "不需要再用鼠标指着", makeCheckboxOption("forceShowDifficulties"))
                         )
                     ),
                     $("<div>").append(
-                        "<h2>Multiplayer</h2>",
+                        "<h2>多人游戏</h2>",
                         $("<table class='osuplusSettingsTable' width='100%'>").append(
-                            makeSettingRow("Show grades", "only for std", makeCheckboxOption("showMpGrades"))
+                            makeSettingRow("显示评级", "仅限std模式", makeCheckboxOption("showMpGrades"))
                         )
                     )
                 ),
-                $("<button id='osuplusSettingsSaveBtn'>Save</button>").click(function(){
+                $("<button id='osuplusSettingsSaveBtn'>保存</button>").click(function(){
                     GMX.setValue("apikey", $("#settings-apikey").val());
                     var properties = [
                         "showMirror", "showMirror2", "showMirror3", "showMirror4", "showDates", "showPpRank", "fetchPlayerCountries", "showTop100", "pp2dp", "failedChecked", 
@@ -662,11 +662,11 @@
             mpDiv = $(`<div class='osuplus osuplus-mp-container'>
                 <div class='js-spoilerbox bbcode-spoilerbox'>
                     <a class='js-spoilerbox__link bbcode-spoilerbox__link' href='#'>
-                        <span class="bbcode-spoilerbox__link-icon"></span>Match costs
+                        <span class="bbcode-spoilerbox__link-icon"></span>比赛cost
                     </a>
                     <div class='bbcode-spoilerbox__body osuplus-mp-body'>
                         <div id='osuplus-mc'>
-                            Loading...
+                            加载中...
                         </div>
                     </div>
                 </div>
@@ -685,7 +685,7 @@
                     mcEle.html(
                         `<div class='mc-settings'>
                             <div class='mc-maps-container'>
-                                <div>Maps</div>
+                                <div>谱面</div>
                                 ${matches.map((match, index) => 
                                     `<input type='checkbox' id='mp-map-${match.id}' name='${index}' checked>
                                     <label for='mp-map-${match.id}' class='mp-label'>
@@ -694,7 +694,7 @@
                                 ).join("")}
                             </div>
                             <div class='mc-users-container'>
-                                <div>Players</div>
+                                <div>玩家</div>
                                 ${userData.map((user) => 
                                     `<div class='mc-user'>
                                         <input type='checkbox' id='mp-user-${user.id}' name='${user.id}' checked>
@@ -703,11 +703,11 @@
                                 ).join("")}
                             </div>
                             <div class='mc-others-container'>
-                                EZ mult: <input type='text' id='mc-ez-mult' value='1.00'><br>
-                                FL mult: <input type='text' id='mc-fl-mult' value='1.00'><br>
+                                EZ 加成: <input type='text' id='mc-ez-mult' value='1.00'><br>
+                                FL 加成: <input type='text' id='mc-fl-mult' value='1.00'><br>
                                 <br>
                                 <div class='mc-formulas'>
-                                    Formula:
+                                    算法:
                                     <div class='mc-formula-box'>
                                         <input type='radio' id='mc-formula-osuplus' name='mc-formula' value='osuplus' checked>
                                         <label for='mc-formula-osuplus' class='mp-label'>osuplus</label> <a href='https://i.imgur.com/BJPOKDY.png' target='_blank'>?</a><br>
@@ -720,7 +720,7 @@
                             </div>
                         </div>
                         <div class='mc-calculate-row'>
-                            <button class='mc-calculate-btn'>Calculate match costs</button>
+                            <button class='mc-calculate-btn'>计算cost</button>
                         </div>
                         <div class='mc-results'>
 
@@ -768,7 +768,7 @@
                         }
                         mc.sort((a, b) => b.stats.mc - a.stats.mc);
                         mcEle.find(".mc-results").empty().html(
-                            `<div class='mc-results-header'>${jsonEvents.match.name}<br>Formula: ${formula}</div>
+                            `<div class='mc-results-header'>${jsonEvents.match.name}<br>算法: ${formula}</div>
                             <div class='mc-teamresult'>${teamresultDiv}</div>
                             <div class='mc-result'>
                                 <table class='mc-list'>
@@ -988,7 +988,7 @@
                     var match = {
                         beatmap: event.game.beatmap === undefined ? {
                             id: Math.floor(Math.random() * 1e12),
-                            title: "deleted beatmap",
+                            title: "谱面已删除",
                             version: "rip"
                         } : {
                             id: event.game.beatmap.id,
@@ -1147,7 +1147,7 @@
                     tableLoadingNotice.hide();
                     
                     //Add new headers
-                    var newHeader = isGlobal ? "Country" : "Global";
+                    var newHeader = isGlobal ? "本地" : "全球";
                     tableBody.children().first().children().first().after("<th class='rank2col'>" + newHeader + "</th>");
 
                     //Add new ranks
@@ -1234,7 +1234,7 @@
                     tableLoadingNotice.hide();
                     
                     //Add new header
-                    var newHeader = isGlobal ? "Country" : "Global";
+                    var newHeader = isGlobal ? "本地" : "全球";
                     $(".ranking-page-table__heading--main").before(`<th class='ranking-page-table__heading'>${newHeader}</th>`);
 
                     //Add new ranks
@@ -1345,7 +1345,7 @@
 
             // :)
             if(userId === "1843447"){
-                $(".profile-username").parent().after("<div><b>osuplus creator</b></div>");
+                $(".profile-username").parent().after("<div><b>osuplus作者</b></div>");
             }
         }
 
@@ -1513,21 +1513,21 @@
                         </tr>
                         <tr>
                             <td class='tableAttr'>HP:</td><td>${beatmap.diff_drain} <span class="modal-hr" hidden>(${Math.min(parseFloat(beatmap.diff_drain)*1.4, 10).toFixed(2)})</span><span class="modal-ez" hidden>(${(parseFloat(beatmap.diff_drain)/2).toFixed(2)})</span></td>
-                            <td class='tableAttr'>Stars:</td><td>${beatmap.difficultyrating}</td>
+                            <td class='tableAttr'>难度:</td><td>${beatmap.difficultyrating}</td>
                         </tr>
                         <tr>
                             <td class='tableAttr'>OD:</td><td>${beatmap.diff_overall} <span class="modal-hr" hidden>(${Math.min(parseFloat(beatmap.diff_overall)*1.4, 10).toFixed(2)})</span><span class="modal-ez" hidden>(${(parseFloat(beatmap.diff_overall)/2).toFixed(2)})</span></td>
-                            <td class='tableAttr'>Length:</td>
-                            <td>${secsToMins(parseInt(beatmap.total_length))} (${secsToMins(parseInt(beatmap.hit_length))} drain)${beatmap.max_combo === null ? "" : `<br>${beatmap.max_combo}x combo`}</td>
+                            <td class='tableAttr'>长度:</td>
+                            <td>${secsToMins(parseInt(beatmap.total_length))} (游玩长度：${secsToMins(parseInt(beatmap.hit_length))})${beatmap.max_combo === null ? "" : `<br>${beatmap.max_combo}x combo`}</td>
                         </tr>
                         <tr>
-                            <td class='tableAttr'>Creator:</td><td>${beatmap.creator}</td>
+                            <td class='tableAttr'>作者:</td><td>${beatmap.creator}</td>
                             <td class='tableAttr'>BPM:</td><td>${beatmap.bpm}</td>
                         </tr>
                         <tr>
-                            <td colspan=4><a href=/d/${beatmap.beatmapset_id}>Download</a><br>
-                                <a href='https://beatconnect.io/b/${beatmap.beatmapset_id}'>Beatconnect mirror</a><br>
-                                <a href='https://osu.sayobot.cn/home?search=${beatmap.beatmapset_id}' target='_blank'>Sayobot</a>
+                            <td colspan=4><a href=/d/${beatmap.beatmapset_id}>直接下载</a><br>
+                                <a href='https://beatconnect.io/b/${beatmap.beatmapset_id}'>Beatconnect 镜像</a><br>
+                                <a href='https://osu.sayobot.cn/home?search=${beatmap.beatmapset_id}' target='_blank'>Sayobot 镜像</a>
                             </td>
                         </tr>
                     </table>`
@@ -1579,7 +1579,7 @@
                     generalNode.find(".profileStatLine").eq(7).after(
                         "<br>",
                         $("<div class='profileStatLine'></div>").append(
-                            "<b>Hits/play</b>: " + (ctotal/parseInt(user.playcount)).toFixed(2)
+                            "<b>命中数/游玩次数</b>: " + (ctotal/parseInt(user.playcount)).toFixed(2)
                         )
                     );
                 }
@@ -1602,10 +1602,10 @@
         function addMostPlayed(){
             mainTableBody.append(
                 $("<tr>").click(function(){ expandProfile("mostplayed", addMostPlayedContent); })
-                    .append($("<td class='sectionHeading' id='_mostplayed'>Most Played</td>")),
+                    .append($("<td class='sectionHeading' id='_mostplayed'>最多游玩</td>")),
                 $("<tr><td class='sectionContents'><div id='mostplayed'></div></td></tr>")
             );
-            profileTabs.append($("<td>Most Played</td>").click(function(){
+            profileTabs.append($("<td>最多游玩</td>").click(function(){
                 expandProfile("mostplayed", addMostPlayedContent, true);
             }));
         }
@@ -1613,10 +1613,10 @@
         function addRecent(){
             mainTableBody.append(
                 $("<tr>").click(function(){ expandProfile("recent", addRecentContent); })
-                    .append($("<td class='sectionHeading' id='_recent'>Recent</td>")),
+                    .append($("<td class='sectionHeading' id='_recent'>最近游玩</td>")),
                 $("<tr><td class='sectionContents'><div id='recent'></div></td></tr>")
             );
-            profileTabs.append($("<td>Recent</td>").click(function(){
+            profileTabs.append($("<td>最近游玩</td>").click(function(){
                 expandProfile("recent", addRecentContent, true);
             }));
         }
@@ -1661,12 +1661,12 @@
                                 )
                             ),
                             $("<div></div>").append(
-                                "mapped by ",
+                                "谱师:",
                                 mapperlink
                             )
                         ),
                         $("<td></td>").append(
-                            $("<div class='pc-display'><b>" + beatmapInfo.count + " plays</b></div>"),
+                            $("<div class='pc-display'><b>" + beatmapInfo.count + " pc</b></div>"),
                             $("<div class='star-display'>" + beatmapInfo.beatmap.difficulty_rating.toFixed(2) + "&#9733;</div>")
                         )
                     ))
@@ -1685,7 +1685,7 @@
                             $("<div class='more-most'></div>").append(
                                 $("<div class='prof-beatmap'></div>").append(
                                     $(`<a data-most-offset=${offset+50}></a>`).append(
-                                        "<b>Show me more!</b>"
+                                        "<b>更多...</b>"
                                     ).click(function(){
                                         var curoffset = parseInt($(this).attr("data-most-offset"));
                                         $(".more-most").remove();
@@ -1697,7 +1697,7 @@
                     }
                 });
             }
-            container.append("<h2>Most Played</h2>");
+            container.append("<h2>最多游玩</h2>");
             extendMostPlayed(0);
         }
 
@@ -1725,9 +1725,9 @@
                 });
 
                 container.append(
-                    "<h2>Recent Plays</h2>",
+                    "<h2>最近游玩</h2>",
                     $("<label></label>").append(
-                        failedCheckbox, "Show failed scores"
+                        failedCheckbox, "显示失败成绩"
                     )
                 );
 
@@ -1735,7 +1735,7 @@
                     var modstr = getMods(play.enabled_mods),
                         acc = calcAcc(play, gameMode),
                         dateset = new Date(play.date.replace(" ","T") + "+0000"), // dates from API in GMT+0
-                        maplink = $("<a href='/b/" + play.beatmap_id + "?m=" + gameMode + "'></a>").text("Loading..."),
+                        maplink = $("<a href='/b/" + play.beatmap_id + "?m=" + gameMode + "'></a>").text("加载中..."),
                         maxmapcombo = $("<span></span>").css("color", "#b7b1e5"),
                         //starrating = $("<b>...&#9733;</b>"),
                         failClass = play.rank === "F" ? "failedScore" : "passScore",
@@ -1873,9 +1873,9 @@
             // :)
             if(jsonUser.id == 1843447){
                 if($(".profile-info__title").length){
-                    $(".profile-info__title").text("osuplus creator");
+                    $(".profile-info__title").text("osuplus作者");
                 }else{
-                    $(".profile-info__name").after("<span class='profile-info__title'>osuplus creator</span>");
+                    $(".profile-info__name").after("<span class='profile-info__title'>osuplus作者</span>");
                 }
             }
         }
@@ -2100,21 +2100,21 @@
                         </tr>
                         <tr>
                           <td class='tableAttr'>HP:</td><td>${beatmap.diff_drain} <span class="modal-hr" hidden>(${Math.min(parseFloat(beatmap.diff_drain)*1.4, 10).toFixed(2)})</span><span class="modal-ez" hidden>(${(parseFloat(beatmap.diff_drain)/2).toFixed(2)})</span></td>
-                          <td class='tableAttr'>Stars:</td><td>${beatmap.difficultyrating}</td>
+                          <td class='tableAttr'>难度:</td><td>${beatmap.difficultyrating}</td>
                         </tr>
                         <tr>
                           <td class='tableAttr'>OD:</td><td>${beatmap.diff_overall} <span class="modal-hr" hidden>(${Math.min(parseFloat(beatmap.diff_overall)*1.4, 10).toFixed(2)})</span><span class="modal-ez" hidden>(${(parseFloat(beatmap.diff_overall)/2).toFixed(2)})</span></td>
-                          <td class='tableAttr'>Length:</td>
-                          <td>${secsToMins(parseInt(beatmap.total_length))} (${secsToMins(parseInt(beatmap.hit_length))} drain)${(beatmap.max_combo == null ? "" : `<br>${beatmap.max_combo}x combo`)}</td>
+                          <td class='tableAttr'>长度:</td>
+                          <td>${secsToMins(parseInt(beatmap.total_length))} (游玩长度：${secsToMins(parseInt(beatmap.hit_length))})${(beatmap.max_combo == null ? "" : `<br>${beatmap.max_combo}x combo`)}</td>
                         </tr>
                         <tr>
-                          <td class='tableAttr'>Creator:</td><td>${beatmap.creator}</td>
+                          <td class='tableAttr'>作者:</td><td>${beatmap.creator}</td>
                           <td class='tableAttr'>BPM:</td><td>${beatmap.bpm}</td>
                         </tr>
                         <tr>
-                          <td colspan=4><a href=/beatmapsets/${beatmap.beatmapset_id}/download>Download</a>
-                            <a href='https://beatconnect.io/b/${beatmap.beatmapset_id}'>Beatconnect mirror</a><br>
-                            <a href='https://osu.sayobot.cn/home?search=${beatmap.beatmapset_id}' target='_blank'>Sayobot</a>
+                          <td colspan=4><a href=/beatmapsets/${beatmap.beatmapset_id}/download>直接下载</a>
+                            <a href='https://beatconnect.io/b/${beatmap.beatmapset_id}'>Beatconnect 镜像</a><br>
+                            <a href='https://osu.sayobot.cn/home?search=${beatmap.beatmapset_id}' target='_blank'>Sayobot 镜像</a>
                           </td>
                         </tr>
                       </table>`
@@ -2150,7 +2150,7 @@
 
                     if(settings.showHitsPerPlay){
                         $(".profile-stats__entry").eq(4).after(
-                            `<dl class="profile-stats__entry"><dt class="profile-stats__key">Hits per Play</dt>
+                            `<dl class="profile-stats__entry"><dt class="profile-stats__key">命中数/游玩次数</dt>
                             <dd class="profile-stats__value">${(ctotal/parseInt(user.playcount)).toFixed(2)}</dd></dl>`
                         );
                     }
@@ -2173,8 +2173,8 @@
 
         function addRecent(){
             $("div[data-page-id=recent_activity] .page-extra").append(
-                "<div class='div-24h'><h2 class='title title--page-extra'>Recent 24h</h2></div>",
-                $("<div id='op-recent'>Loading...</div>")
+                "<div class='div-24h'><h2 class='title title--page-extra'>24小时内游玩</h2></div>",
+                $("<div id='op-recent'>加载中...</div>")
             );
             var container = $("#op-recent");
 
@@ -2196,7 +2196,7 @@
                 var subcontainer = $("<div class='op-recent-container'></div>");
                 container.empty().append(
                     $("<label></label>").append(
-                        failedCheckbox, "Show failed scores"
+                        failedCheckbox, "显示失败成绩"
                     ),
                     subcontainer
                 );
@@ -2206,8 +2206,8 @@
                         acc = calcAcc(play, gameMode),
                         dateset = new Date(play.date.replace(" ","T") + "+0000"), // dates from API in GMT+0
                         maplink = $(`<a href="https://osu.ppy.sh/beatmaps/${play.beatmap_id}" class="play-detail__title u-ellipsis-overflow">
-                            Loading...<small class="play-detail__artist"></small></a>`),
-                        mapver = $("<span class='play-detail__beatmap'>Loading...</span>"),
+                            加载中...<small class="play-detail__artist"></small></a>`),
+                        mapver = $("<span class='play-detail__beatmap'>加载中...</span>"),
                         maxmapcombo = $("<span></span>").css("color", "#b7b1e5"),
                         //starrating = $("<b>...&#9733;</b>"),
                         failClass = play.rank === "F" ? "failedScore" : "passScore",
@@ -2439,7 +2439,7 @@
                             rows.removeClass("recentscore");
                         }
                     }).addClass("slider-container"),
-                    "<div class='export-container'><a class='export-btn'>export to csv</a></div>"
+                    "<div class='export-container'><a class='export-btn'>导出为csv</a></div>"
                 )
             );
             $(".export-btn").click(function(){
@@ -2456,12 +2456,12 @@
         function addOsuPreview(){
             songInfoRef.parent().next().after(
                 $("<div class='spoiler'></div>").html(
-                    "<div class='spoiler_head' onclick='return toggleSpoiler(this);'>osu!preview</div>" +
+                    "<div class='spoiler_head' onclick='return toggleSpoiler(this);'>osu!预览</div>" +
                     "<div class='spoiler_body'><div id='osupreview'></div></div>"
                 ).click(function(){
                     if(osupreviewLoaded) return;
                     $("#osupreview").html(
-                        "If below doesn't work, <a href='http://jmir.xyz/osu/preview.html#" + mapID + "' target='_blank'>open in new tab</a><br>" +
+                        "如果无法显示，请<a href='http://jmir.xyz/osu/preview.html#" + mapID + "' target='_blank'>点此</a><br>" +
                         "<iframe class='osupreview' src='https://jmir.xyz/osu/preview.html#" + mapID + "' allowfullscreen></iframe>"
                     );
                     osupreviewLoaded = true;
@@ -2484,7 +2484,7 @@
             $(".content-with-bg").children("h2").before(
                 $("<div></div>").attr("id", "searchuser")
                     .append(
-                        $("<strong>Search user: </strong>"),
+                        $("<strong>搜索玩家: </strong>"),
                         $("<input type='text' id='searchusertxt' name='searchusertxt'>")
                             .val(localUsername)
                             .bind("enterKey", searchUserEnter)
@@ -2494,7 +2494,7 @@
                                     $(this).trigger("enterKey");
                                 }
                             }),
-                        $("<div id='searchuserinfo'>Searching...</div>").hide(),
+                        $("<div id='searchuserinfo'>搜索中...</div>").hide(),
                         $("<div></div>").attr("class","beatmapListing")
                             .attr("id", "searchuserresult")
                             .append(
@@ -2507,7 +2507,7 @@
         }
 
         function searchUserEnter(){
-            $("#searchuserinfo").text("Searching...").show();
+            $("#searchuserinfo").text("搜索中...").show();
             $("#searchuserresult").hide();
             var searchusernames = $("#searchusertxt").val().split(",");
             var promises = searchusernames.map((username) => new Promise(function(resolve, reject){
@@ -2530,7 +2530,7 @@
                     $("#searchuserinfo").hide();
                     $("#searchuserresult").show();
                 }else{
-                    $("#searchuserinfo").text("No scores found :(");
+                    $("#searchuserinfo").text("找不到成绩 :(");
                 }
             });
         }
@@ -2546,7 +2546,7 @@
                                 value: "global"})
                             .prop("checked", true)
                             .change(rankingTypeChanged),
-                        "Global"
+                        "全球"
                     ),
                     $("<label></label>").append(
                         $("<input>")
@@ -2555,7 +2555,7 @@
                                 name: "rankingtype",
                                 value: "friends"})
                             .change(rankingTypeChanged),
-                        "Friends"
+                        "好友"
                     ),
                     //Show date button
                     $("<label></label>").append(
@@ -2565,7 +2565,7 @@
                                 id: "showdatebox"})
                             .change(showDateChanged)
                             .prop("checked", showDates),
-                        "Show date"
+                        "显示达成时间"
                     )
                 )
             );
@@ -2986,7 +2986,7 @@
 
             // Add click scores to sort
             scoreListingTitlerow.children().eq(2).empty().append(
-                $("<a><strong>Score</strong></a>")
+                $("<a><strong>得分</strong></a>")
                     .click(function(){
                         sortResult("score");
                         updateScoresTable();
@@ -2995,7 +2995,7 @@
 
             // Add date column
             scoreListingTitlerow.children().last().before(
-                $("<th class='datecol'>Date</th>")
+                $("<th class='datecol'>达成时间</th>")
             );
 
             // Add replay column
@@ -3012,7 +3012,7 @@
         }
 
         function modifyTableHeadersMaxcombo(){
-            scoreListingTitlerow.children().eq(6).html("<strong>Max combo" + (beatmapInfo.max_combo === null ? "" : " (" + beatmapInfo.max_combo + ")") + "</strong>");
+            scoreListingTitlerow.children().eq(6).html("<strong>最大连击" + (beatmapInfo.max_combo === null ? "" : " (" + beatmapInfo.max_combo + ")") + "</strong>");
         }
 
         function clearScoresTable(){
@@ -3776,7 +3776,7 @@
                                 value: "global"})
                             .prop("checked", true)
                             .change(rankingTypeChanged),
-                        "Global"),
+                        "全球"),
                     $("<label></label>").append(
                         $("<input>")
                             .attr({
@@ -3784,7 +3784,7 @@
                                 name: "rankingtype",
                                 value: "friends"})
                             .change(rankingTypeChanged),
-                        "Friends"),
+                        "好友"),
                     //Show date button
                     /*
                     $("<label></label>").append(
@@ -3887,13 +3887,13 @@
         function addOsuPreview(){
             $(".beatmapset-info").after(
                 $("<div class='osupreview-container osuplus-header'><div class='js-spoilerbox bbcode-spoilerbox'>\
-                    <a class='js-spoilerbox__link bbcode-spoilerbox__link' href='#'><span class='bbcode-spoilerbox__link-icon'></span>osu!preview</a>\
+                    <a class='js-spoilerbox__link bbcode-spoilerbox__link' href='#'><span class='bbcode-spoilerbox__link-icon'></span>osu!预览</a>\
                     <div class='bbcode-spoilerbox__body'><div id='osupreview'></div></div></div>"
                 ).click(function(){
                     var osupreviewEle = $(this).find("#osupreview");
                     if(osupreviewEle.data("loaded")) return;
                     osupreviewEle.html(
-                        `If below doesn't work, <a href='http://jmir.xyz/osu/preview.html#${mapID}' target='_blank'>open in new tab</a><br>
+                        `如果无法显示，请<a href='http://jmir.xyz/osu/preview.html#${mapID}' target='_blank'>点此</a><br>
                         <iframe class='osupreview' src='https://jmir.xyz/osu/preview.html#${mapID}' allowfullscreen></iframe>`
                     );
                     osupreviewEle.data("loaded", true);
@@ -3923,7 +3923,7 @@
                             rows.removeClass("recentscore");
                         }
                     }).addClass("slider-container"),
-                    "<div class='export-container'><a class='export-btn'>export to csv</a></div>"
+                    "<div class='export-container'><a class='export-btn'>导出为csv</a></div>"
                 )
             );
             $(".export-btn").click(function(){
@@ -3982,7 +3982,7 @@
         function modifyTableHeaders(){
             // Add click scores/pp to sort
             $(".osuplus-table.beatmap-scoreboard-table__table .beatmap-scoreboard-table__header--score").text("").append(
-                $("<a>Score</a>")
+                $("<a>得分</a>")
                     .click(function(){
                         sortResult("score");
                         updateScoresTable();
@@ -4006,7 +4006,7 @@
             //$(".search-beatmap-scoreboard-table__table thead tr").children().last().before("<th class='beatmap-scoreboard-table__header beatmap-scoreboard-table__header--date datecol'>Date</th>");
 
             // Add max combo
-            $(".osuplus-table .beatmap-scoreboard-table__header--maxcombo").text(`Max Combo${maxCombo ? ` (${maxCombo})` : ""}`);
+            $(".osuplus-table .beatmap-scoreboard-table__header--maxcombo").text(`最大连击${maxCombo ? ` (${maxCombo})` : ""}`);
         }
 
         function clearScoresTable(){
@@ -4020,7 +4020,7 @@
             $(".beatmap-scoreboard-table").before(
                 $("<div class='osuplus-table'></div>").attr("id", "searchuser")
                     .append(
-                        $("<strong>Search user: </strong>"),
+                        $("<strong>搜索玩家: </strong>"),
                         $("<input>")
                             .attr({type: "text", id: "searchusertxt"})
                             .val(currentUser.username)
@@ -4031,7 +4031,7 @@
                                     $(this).trigger("enterKey");
                                 }
                             }),
-                        $("<div></div>").attr("id", "searchuserinfo").text("Searching...").hide(),
+                        $("<div></div>").attr("id", "searchuserinfo").text("搜索中...").hide(),
                         $("<div></div>").attr("class", "search-beatmap-scoreboard-table")
                             .attr("id", "searchuserresult")
                             .append(
@@ -4046,7 +4046,7 @@
         }
 
         function searchUserEnter(){
-            $("#searchuserinfo").text("Searching...").show();
+            $("#searchuserinfo").text("搜索中...").show();
             $("#searchuserresult").hide();
             var searchusernames = $("#searchusertxt").val().split(",");
             var promises = searchusernames.map((username) => new Promise(function(resolve, reject){
@@ -4069,7 +4069,7 @@
                     $("#searchuserinfo").hide();
                     $("#searchuserresult").show();
                 }else{
-                    $("#searchuserinfo").text("No scores found :(");
+                    $("#searchuserinfo").text("找不到成绩 :(");
                 }
             });
         }
@@ -4143,7 +4143,7 @@
         return $("<div></div>").append(
             slider,
             $("<label></label>").append(
-                sliderCB, "Highlight past ", sliderLbl, " days"
+                sliderCB, "高亮过去 ", sliderLbl, " 天"
             )
         );
     }
@@ -4157,8 +4157,8 @@
         $(document.body).prepend(
             `<div class="op-getkey">
                 <h1 id="osuplusnotice">
-                    [osuplus] Click <a class="a-promptKey">here</a> to use your osu!API key.<br>
-                    Don't have API key? Get from <a href='https://osu.ppy.sh/p/api' target="_blank">here</a> or <a href='https://old.ppy.sh/p/api' target="_blank">here</a>
+                    [osuplus] 单击<a class="a-promptKey">此处</a>填写你的API key。<br>
+                    没有API key？从<a href='https://osu.ppy.sh/p/api' target="_blank">这里</a>或者<a href='https://old.ppy.sh/p/api' target="_blank">这里</a>获取
                 </h1>
             </div>`
         );
@@ -4173,11 +4173,11 @@
                     GMX.setValue("apikey", yourKey).then(() => {
                         apikey = yourKey;
                         hasKey = true;
-                        alert("API key worked! Your page will now refresh");
+                        alert("API key设置成功！即将刷新网页...");
                         location.reload();
                     });
                 }else{
-                    alert("API key failed :(");
+                    alert("API key 不可用 :(");
                 }
             });
         }

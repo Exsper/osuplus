@@ -1,3 +1,5 @@
+[osuplus](https://github.com/limjeck/osuplus)的汉化版 
+
 # osuplus
 
 A userscript to add features to your boring osu! web pages.
