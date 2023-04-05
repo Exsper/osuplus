@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         osuplus
-// @namespace    https://osu.ppy.sh/u/1843447
-// @version      2.3.9
-// @description  show pp, selected mods ranking, friends ranking and other stuff
+// @namespace    osuplus
+// @version      2.3.9-CN
+// @description  扩展成绩显示、mod排行、好友排行等功能
 // @author       oneplusone
 // @match        http://osu.ppy.sh/*
 // @match        https://osu.ppy.sh/*
@@ -2195,10 +2195,10 @@
                     <div class="js-spoilerbox bbcode-spoilerbox">
                         <button class="js-spoilerbox__link bbcode-spoilerbox__link" type="button">
                             <span class="bbcode-spoilerbox__link-icon"></span>
-                            <h2 class='title title--page-extra'>Recent 24h</h2>
+                            <h2 class='title title--page-extra'>24小时内游玩</h2>
                         </button>
                         <div class="bbcode-spoilerbox__body">
-                            <div id='op-recent'>Loading...</div>
+                            <div id='op-recent'>加载中...</div>
                         </div>
                     </div>
                 </div>`
