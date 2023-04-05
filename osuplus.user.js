@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         osuplus
 // @namespace    osuplus
-// @version      2.3.8-CN
+// @version      2.3.8-CN-PreviewFix
 // @description  扩展成绩显示、mod排行、好友排行等功能
 // @author       oneplusone
 // @match        http://osu.ppy.sh/*
@@ -2461,8 +2461,8 @@
                 ).click(function(){
                     if(osupreviewLoaded) return;
                     $("#osupreview").html(
-                        "如果无法显示，请<a href='http://jmir.xyz/osu/preview.html#" + mapID + "' target='_blank'>点此</a><br>" +
-                        "<iframe class='osupreview' src='https://jmir.xyz/osu/preview.html#" + mapID + "' allowfullscreen></iframe>"
+                        "如果无法显示，请<a href='https://exsper.github.io/osu-preview/preview.html#" + mapID + "' target='_blank'>点此</a><br>" +
+                        "<iframe class='osupreview' src='https://exsper.github.io/osu-preview/preview.html#" + mapID + "' allowfullscreen></iframe>"
                     );
                     osupreviewLoaded = true;
                 })
@@ -3893,8 +3893,8 @@
                     var osupreviewEle = $(this).find("#osupreview");
                     if(osupreviewEle.data("loaded")) return;
                     osupreviewEle.html(
-                        `如果无法显示，请<a href='http://jmir.xyz/osu/preview.html#${mapID}' target='_blank'>点此</a><br>
-                        <iframe class='osupreview' src='https://jmir.xyz/osu/preview.html#${mapID}' allowfullscreen></iframe>`
+                        `如果无法显示，请<a href='https://exsper.github.io/osu-preview/preview.html#${mapID}' target='_blank'>点此</a><br>
+                        <iframe class='osupreview' src='https://exsper.github.io/osu-preview/preview.html#${mapID}' allowfullscreen></iframe>`
                     );
                     osupreviewEle.data("loaded", true);
                 })
