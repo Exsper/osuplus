@@ -451,7 +451,7 @@
                             makeSettingRow("显示排行榜前100", "不只有前50", makeCheckboxOption("showTop100")),
                             makeSettingRow("pp显示2位小数", "不是取整", makeCheckboxOption("pp2dp")),
                             makeSettingRow("显示 osu!预览", null, makeCheckboxOption("osupreview")),
-                            makeSettingRow("显示 osu!网页谱面预览器", null, makeCheckboxOption("osupreview2"))
+                            makeSettingRow("显示 osu!谱面查看器（英文界面）", null, makeCheckboxOption("osupreview2"))
                         )
                     ),
                     $("<div>").append(
@@ -2431,7 +2431,7 @@
                     osupreviewEle.html(
                         `${settings.osupreview ? `osu!预览 (<a href='https://exsper.hiosu.com/preview.html#${mapID}' target='_blank'>在新标签页打开</a>)<br>
                         <iframe class='osupreview' src='https://exsper.hiosu.com/preview.html#${mapID}' allowfullscreen></iframe><br><br>` : ""}
-                        ${settings.osupreview2 ? `<a href='https://github.com/FukutoTojido/beatmap-viewer-web'>osu!网页谱面预览器</a> (<a href='https://preview.tryz.id.vn/?b=${mapID}' target='_blank'>在新标签页打开</a>)<br>
+                        ${settings.osupreview2 ? `<a href='https://github.com/FukutoTojido/beatmap-viewer-web'>osu!谱面查看器</a> (<a href='https://preview.tryz.id.vn/?b=${mapID}' target='_blank'>在新标签页打开</a>)<br>
                         <iframe class='osupreview2' src='https://preview.tryz.id.vn/?b=${mapID}' allowfullscreen></iframe>` : ""}`
                     );
                     osupreviewEle.data("loaded", true);
